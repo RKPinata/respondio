@@ -1,10 +1,9 @@
 <script setup>
-import { Button } from '@/components/ui/button'
+import Flowchart from '@/components/flowchart/Flowchart.vue'
 </script>
 
 <template>
-  <main>
-    <div class="text-red-600">Hello</div>
-    <Button variant="">Smth</Button>
-  </main>
+  <div class="min-h-screen flex flex-col">
+    <Flowchart />
+  </div>
 </template>
