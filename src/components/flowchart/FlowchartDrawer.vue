@@ -1,17 +1,4 @@
-<script setup>
-import { defineProps } from 'vue'
-
-defineProps({
-  isOpen: {
-    type: Boolean,
-    required: true,
-  },
-  toggleOpen: {
-    type: Function,
-    required: true,
-  },
-})
-</script>
+<script setup></script>
 <template>
   <div
     :class="{
@@ -21,6 +8,5 @@ defineProps({
     }"
   >
     <p>Drawer</p>
-    <button @click="toggleOpen">Close</button>
   </div>
 </template>
