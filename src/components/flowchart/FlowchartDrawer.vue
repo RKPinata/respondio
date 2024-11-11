@@ -10,7 +10,7 @@ const isOpen = !!nodeId
 <template>
   <div
     :class="{
-      'overflow-hidden transition-all duration-300 ease-in-out': true,
+      'bg-background overflow-hidden transition-all duration-300 ease-in-out': true,
       'w-0': !isOpen,
       'w-[500px]': isOpen,
     }"
