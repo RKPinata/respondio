@@ -10,7 +10,7 @@ const router = createRouter({
       redirect: { name: 'flowchart' },
     },
     {
-      path: '/flowchart/:nodeId?',
+      path: '/flowchart',
       name: 'flowchart',
       component: FlowchartView,
     },

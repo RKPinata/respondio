@@ -1,4 +1,12 @@
-<script setup></script>
+<script setup>
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const nodeId = route.query.nodeId
+
+const isOpen = !!nodeId
+</script>
 <template>
   <div
     :class="{
