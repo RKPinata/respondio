@@ -1,11 +1,12 @@
 <script setup>
-import { useRoute } from 'vue-router'
+import { useDrawer } from '@/composables'
+import { computed, watchEffect } from 'vue'
 
-const route = useRoute()
+const { closeDrawer, isOpen, nodeDetails } = useDrawer()
 
-const nodeId = route.query.nodeId
-
-const isOpen = !!nodeId
+watchEffect(() => {
+  console.log({ isOpen, nodeDetails })
+})
 </script>
 <template>
   <div
@@ -16,5 +17,6 @@ const isOpen = !!nodeId
     }"
   >
     <p>Drawer</p>
+    <button @click="closeDrawer">Close</button>
   </div>
 </template>

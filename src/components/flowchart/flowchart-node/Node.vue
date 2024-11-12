@@ -1,31 +1,36 @@
 <script setup>
+import { computed } from 'vue'
+
 import Separator from '@/components/ui/separator/Separator.vue'
 import NodeIcon from './NodeIcon.vue'
 import NodeDescription from './NodeDescription.vue'
 import NodeTitle from './NodeTitle.vue'
 
 const props = defineProps({
-  nodeDetails: {
-    type: null,
+  data: {
+    type: Object,
     required: true,
   },
 })
 
-const { type, name, data } = props.nodeDetails
+const nodeType = props.data.type
+const nodeData = computed(() => props.data || {})
+const nodeName = computed(() => props.data.name || '')
 
-const isValid =
-  {
+const isValid = computed(() => {
+  return {
     trigger: true,
     dateTime: true,
-    sendMessage: !!data.payload,
-    addComment: !!data.comment,
-  }[type] || false
+    sendMessage: !!nodeData.value.payload,
+    addComment: !!nodeData.value.comment,
+  }[nodeType]
+})
 
-const isConnector = type === 'dateTimeConnector'
+const isConnector = nodeType === 'dateTimeConnector'
 </script>
 <template>
   <span v-if="isConnector" class="text-blue-600 font-semibold bg-blue-200 px-2 py-1 rounded-lg">{{
-    name
+    nodeName
   }}</span>
   <div
     v-else
@@ -35,10 +40,10 @@ const isConnector = type === 'dateTimeConnector'
     }"
   >
     <div class="flex gap-2 items-center px-2">
-      <NodeIcon :type="type" />
-      <NodeTitle :type="type" :name="name" />
+      <NodeIcon :type="nodeType" />
+      <NodeTitle :type="nodeType" :name="nodeName" />
     </div>
     <Separator />
-    <NodeDescription :type="type" :data="data" :isValid="isValid" />
+    <NodeDescription :type="nodeType" :data="nodeData" :isValid="isValid" />
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup>
 import Typography from '@/components/typography/Typography.vue'
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
 
 const props = defineProps({
   type: {
@@ -58,6 +58,8 @@ const getDescription = (type, data, isValid) => {
       return getCommentDescription(data)
   }
 }
+
+const description = computed(() => getDescription(props.type, props.data, props.isValid))
 </script>
 <template>
   <div class="px-2">
@@ -70,7 +72,7 @@ const getDescription = (type, data, isValid) => {
         'text-muted-foreground': !isValid,
       }"
     >
-      {{ getDescription(type, data, isValid) }}
+      {{ description }}
     </Typography>
   </div>
 </template>
