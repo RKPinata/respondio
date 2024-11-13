@@ -7,11 +7,17 @@ export const useFlowStore = defineStore('flow', () => {
   const nodes = ref(mockNode)
   const edges = ref(mockEdges)
 
+  const selectedNode = ref(null)
+
   // Getters
   const getNodeById = (id) => nodes.value.find((node) => node.id === id)
   const getEdgeById = (id) => edges.value.find((edge) => edge.id === id)
 
   // Actions
+  const setSelectedNode = (node) => {
+    selectedNode.value = node
+  }
+
   const addNode = (node) => {
     nodes.value.push(node)
   }
@@ -50,6 +56,8 @@ export const useFlowStore = defineStore('flow', () => {
   return {
     nodes,
     edges,
+    selectedNode,
+    setSelectedNode,
     getNodeById,
     getEdgeById,
     addNode,

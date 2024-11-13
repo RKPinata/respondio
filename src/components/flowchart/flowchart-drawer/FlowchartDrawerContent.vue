@@ -1,5 +1,6 @@
 <script setup>
 import { Typography } from '@/components/typography'
+import FormAddCard from './FormAddCard.vue'
 
 const props = defineProps({
   nodeDetails: {
@@ -18,7 +19,7 @@ const props = defineProps({
   </template>
 
   <template v-if="nodeType === 'addComment'">
-    <div>input for comment</div>
+    <FormAddCard :data="nodeDetails.data" />
   </template>
 
   <template v-if="nodeType === 'sendMessage'">

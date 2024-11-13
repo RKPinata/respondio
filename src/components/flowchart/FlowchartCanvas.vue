@@ -9,7 +9,7 @@ import { useDrawer } from '@/composables'
 
 const { openDrawer } = useDrawer()
 
-const { nodes, edges } = useFlowStore()
+const { nodes, edges, setSelectedNode } = useFlowStore()
 const { onInit, fitView, snapToGrid } = useVueFlow()
 
 snapToGrid.value = true
@@ -30,6 +30,7 @@ const handleNodeClick = ({ event, node }) => {
   if (node.type === 'dateTimeConnector') return
 
   openDrawer(node.id)
+  setSelectedNode(node)
 }
 </script>
 <template>
