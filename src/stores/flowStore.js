@@ -23,17 +23,29 @@ export const useFlowStore = defineStore('flow', () => {
     nodes.value.push(node)
   }
 
-  const updateNodeData = (id, updatedData) => {
-    const nodeIndex = nodes.value.findIndex((node) => node.id === id)
-    if (nodeIndex !== -1) {
-      nodes.value[nodeIndex] = {
-        ...nodes.value[nodeIndex],
-        data: {
-          ...nodes.value[nodeIndex].data,
-          ...updatedData,
-        },
-      }
+  const recomputeNodes = (id, updatedProperties) => {
+    // Replace the entire nodes array with a new array where the node with the matching ID is updated
+
+    console.log({ id, updatedProperties })
+    nodes.value = nodes.value.map((node) =>
+      node.id === id
+        ? {
+            ...node,
+            ...updatedProperties,
+          }
+        : node,
+    )
+  }
+
+  const updateNodeData = (node, payload) => {
+    const newData = {
+      data: {
+        ...node.data,
+        ...payload,
+      },
     }
+
+    recomputeNodes(node.id, newData)
   }
 
   // Test Required

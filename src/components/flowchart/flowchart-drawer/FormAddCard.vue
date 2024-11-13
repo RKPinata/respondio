@@ -27,7 +27,9 @@ const form = useForm({
 })
 
 const onSubmit = form.handleSubmit((values) => {
-  flowstore.updateNodeData(flowstore.selectedNode.id, { comment: values.comment })
+  flowstore.updateNodeData(flowstore.selectedNode, {
+    comment: values.comment,
+  })
 })
 
 const commentError = computed(() => {
