@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { mockEdges, mockNode } from '@/mock/mockNodeAndEdges'
 
@@ -8,8 +8,8 @@ export const useFlowStore = defineStore('flow', () => {
   const edges = ref(mockEdges)
 
   // Getters
-  const getNodeById = computed(() => (id) => nodes.value.find((node) => node.id === id))
-  const getEdgeById = computed(() => (id) => edges.value.find((edge) => edge.id === id))
+  const getNodeById = (id) => nodes.value.find((node) => node.id === id)
+  const getEdgeById = (id) => edges.value.find((edge) => edge.id === id)
 
   // Actions
   const addNode = (node) => {
@@ -44,6 +44,8 @@ export const useFlowStore = defineStore('flow', () => {
   const removeEdge = (id) => {
     edges.value = edges.value.filter((edge) => edge.id !== id)
   }
+
+  console.log(nodes.value)
 
   return {
     nodes,

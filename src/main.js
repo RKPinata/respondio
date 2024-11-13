@@ -8,9 +8,15 @@ import App from './App.vue'
 import router from './router'
 
 import Unicon from 'vue-unicons'
-import { uniBoltAlt, uniCommentAltLines, uniMessage, uniCalendarAlt } from 'vue-unicons/dist/icons'
+import {
+  uniBoltAlt,
+  uniCommentAltLines,
+  uniMessage,
+  uniCalendarAlt,
+  uniMultiply,
+} from 'vue-unicons/dist/icons'
 
-Unicon.add([uniBoltAlt, uniCommentAltLines, uniMessage, uniCalendarAlt])
+Unicon.add([uniBoltAlt, uniCommentAltLines, uniMessage, uniCalendarAlt, uniMultiply])
 
 const app = createApp(App)
 

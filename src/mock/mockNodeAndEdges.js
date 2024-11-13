@@ -50,6 +50,7 @@ const generateNodesFromRawData = (rawNodes) => {
 
     return {
       ...node,
+      id: String(node.id),
       position,
       data: {
         // add name & type to data
