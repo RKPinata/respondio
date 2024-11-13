@@ -1,13 +1,13 @@
 <script setup>
 import { Typography } from '@/components/typography'
 import { useDrawer } from '@/composables'
-import { computed, watch, watchEffect } from 'vue'
+import { computed, watch } from 'vue'
 import NodeIcon from '../flowchart-node/NodeIcon.vue'
 import { Separator } from '@/components/ui/separator'
 import FlowchartDrawerContent from './FlowchartDrawerContent.vue'
 import { useFlowStore } from '@/stores'
 
-const { closeDrawer, isOpen } = useDrawer()
+const { closeDrawer, isOpen, nodeId } = useDrawer()
 const flowstore = useFlowStore()
 
 const selectedNode = computed(() => {
@@ -26,12 +26,16 @@ const nodeType = computed(() => {
   return selectedNode.value.type
 })
 
-watchEffect(() => {
-  console.log('title', title.value)
-  console.log('nodeType updated:', nodeType.value)
-})
+watch(
+  nodeId,
+  (id) => {
+    if (!id) return
+    flowstore.setSelectedNode(id)
+  },
+  { immediate: true },
+)
 </script>
-<template>
+<template v-if="true">
   <div
     :class="{
       'flex flex-col bg-background overflow-hidden transition-all duration-300 ease-in-out border-l': true,

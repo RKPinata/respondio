@@ -4,13 +4,16 @@ import { Controls } from '@vue-flow/controls'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { useFlowStore } from '@/stores/'
 import Node from './flowchart-node/Node.vue'
-import { markRaw } from 'vue'
+import { markRaw, computed } from 'vue'
 import { useDrawer } from '@/composables'
 
 const { openDrawer } = useDrawer()
 
-const { nodes, edges, setSelectedNode } = useFlowStore()
+const flowstore = useFlowStore()
 const { onInit, fitView, snapToGrid } = useVueFlow()
+
+const nodes = computed(() => flowstore.nodes)
+const edges = computed(() => flowstore.edges)
 
 snapToGrid.value = true
 
@@ -30,7 +33,6 @@ const handleNodeClick = ({ event, node }) => {
   if (node.type === 'dateTimeConnector') return
 
   openDrawer(node.id)
-  setSelectedNode(node)
 }
 </script>
 <template>

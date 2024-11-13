@@ -14,7 +14,8 @@ export const useFlowStore = defineStore('flow', () => {
   const getEdgeById = (id) => edges.value.find((edge) => edge.id === id)
 
   // Actions
-  const setSelectedNode = (node) => {
+  const setSelectedNode = (id) => {
+    const node = getNodeById(id)
     selectedNode.value = node
   }
 
@@ -22,10 +23,16 @@ export const useFlowStore = defineStore('flow', () => {
     nodes.value.push(node)
   }
 
-  const updateNode = (id, updatedData) => {
+  const updateNodeData = (id, updatedData) => {
     const nodeIndex = nodes.value.findIndex((node) => node.id === id)
     if (nodeIndex !== -1) {
-      nodes.value[nodeIndex] = { ...nodes.value[nodeIndex], ...updatedData }
+      nodes.value[nodeIndex] = {
+        ...nodes.value[nodeIndex],
+        data: {
+          ...nodes.value[nodeIndex].data,
+          ...updatedData,
+        },
+      }
     }
   }
 
@@ -61,7 +68,7 @@ export const useFlowStore = defineStore('flow', () => {
     getNodeById,
     getEdgeById,
     addNode,
-    updateNode,
+    updateNodeData,
     removeNode,
     addEdge,
     updateEdge,

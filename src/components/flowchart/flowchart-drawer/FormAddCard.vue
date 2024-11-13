@@ -9,14 +9,9 @@ import { computed, watchEffect } from 'vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useFormField } from '@/components/ui/form/useFormField'
 
-const { updateNode } = useFlowStore()
+const flowstore = useFlowStore()
 
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true,
-  },
-})
+const comment = computed(() => flowstore.selectedNode.data.comment)
 
 const formSchema = toTypedSchema(
   z.object({
@@ -27,12 +22,12 @@ const formSchema = toTypedSchema(
 const form = useForm({
   validationSchema: formSchema,
   initialValues: {
-    comment: props.data.comment,
+    comment: comment.value,
   },
 })
 
 const onSubmit = form.handleSubmit((values) => {
-  console.log('Form submitted!', values)
+  flowstore.updateNodeData(flowstore.selectedNode.id, { comment: values.comment })
 })
 
 const commentError = computed(() => {
