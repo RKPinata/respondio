@@ -34,10 +34,20 @@ const handleNodeClick = ({ event, node }) => {
 
   openDrawer(node.id)
 }
+
+const handleNodeDragStop = ({ node }) => {
+  flowstore.updateNodePosition(node)
+}
 </script>
 <template>
   <div class="flex-grow">
-    <VueFlow :nodes="nodes" :edges="edges" :node-types="nodeTypes" @node-click="handleNodeClick">
+    <VueFlow
+      :nodes="nodes"
+      :edges="edges"
+      :node-types="nodeTypes"
+      @node-click="handleNodeClick"
+      @node-drag-stop="handleNodeDragStop"
+    >
       <Background />
       <Controls position="top-left"></Controls>
     </VueFlow>

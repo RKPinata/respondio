@@ -26,7 +26,6 @@ export const useFlowStore = defineStore('flow', () => {
   const recomputeNodes = (id, updatedProperties) => {
     // Replace the entire nodes array with a new array where the node with the matching ID is updated
 
-    console.log({ id, updatedProperties })
     nodes.value = nodes.value.map((node) =>
       node.id === id
         ? {
@@ -39,13 +38,17 @@ export const useFlowStore = defineStore('flow', () => {
 
   const updateNodeData = (node, payload) => {
     const newData = {
-      data: {
-        ...node.data,
-        ...payload,
-      },
+      ...node.data,
+      ...payload,
     }
 
-    recomputeNodes(node.id, newData)
+    recomputeNodes(node.id, { data: newData })
+  }
+
+  const updateNodePosition = (node) => {
+    const newPosition = node.position
+
+    recomputeNodes(node.id, { position: newPosition })
   }
 
   // Test Required
@@ -70,8 +73,6 @@ export const useFlowStore = defineStore('flow', () => {
     edges.value = edges.value.filter((edge) => edge.id !== id)
   }
 
-  console.log(nodes.value)
-
   return {
     nodes,
     edges,
@@ -81,6 +82,7 @@ export const useFlowStore = defineStore('flow', () => {
     getEdgeById,
     addNode,
     updateNodeData,
+    updateNodePosition,
     removeNode,
     addEdge,
     updateEdge,
