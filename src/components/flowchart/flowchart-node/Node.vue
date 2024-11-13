@@ -35,7 +35,7 @@ const isConnector = nodeType === 'dateTimeConnector'
   <div
     v-else
     :class="{
-      'flex flex-col gap-2 py-2 w-64 bg-background rounded-lg border': true,
+      'flex flex-col gap-2 py-2 w-64 bg-background rounded-lg border cursor-pointer': true,
       'border-destructive': !isValid,
     }"
   >
