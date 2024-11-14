@@ -52,7 +52,7 @@ watch(
         <Typography variant="h2">{{ title }}</Typography>
       </div>
       <Separator />
-      <FlowchartDrawerContent :nodeDetails="selectedNode" :nodeType="nodeType" />
+      <FlowchartDrawerContent :nodeType="nodeType" />
     </div>
   </div>
 </template>

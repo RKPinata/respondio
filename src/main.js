@@ -1,5 +1,6 @@
 import './assets/main.css'
 import '@vue-flow/core/dist/style.css'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

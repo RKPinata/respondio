@@ -1,0 +1,88 @@
+<script setup>
+import { useForm } from 'vee-validate'
+import * as z from 'zod'
+import { useFlowStore } from '@/stores'
+import { Button } from '@/components/ui/button'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { computed, watch, watchEffect } from 'vue'
+import { toTypedSchema } from '@vee-validate/zod'
+
+const flowstore = useFlowStore()
+
+/**
+ * @returns {type}
+ */
+const getFirstMessage = (payload) => {
+  if (Array.isArray(payload)) {
+    return payload[0]
+  }
+
+  return payload
+}
+
+const normalizeMessage = (message) => {
+  return message.text || message.attachment
+}
+
+const createMessagePayload = (message) => {
+  return {
+    type: 'text',
+    text: message,
+  }
+}
+
+const message = computed(() => {
+  const payload = flowstore.selectedNode.data.payload
+  return normalizeMessage(getFirstMessage(payload))
+})
+
+const formSchema = toTypedSchema(
+  z.object({
+    message: z.string().min(1, { message: 'Require at least 1 character' }),
+  }),
+)
+
+const form = useForm({
+  validationSchema: formSchema,
+  initialValues: {
+    message: message.value,
+  },
+})
+
+const onSubmit = form.handleSubmit((values) => {
+  flowstore.updateNodeData(flowstore.selectedNode, {
+    payload: createMessagePayload(values.message),
+  })
+})
+
+const messageError = computed(() => {
+  return form.errors.value.message
+})
+
+// Watch for changes to `message` and set the form value to that
+watch(message, (newMessage) => {
+  console.log('message changed', newMessage)
+  form.setFieldValue('message', newMessage) // Update the form value
+
+  console.log(form.values)
+})
+
+watchEffect(() => {
+  // console.log(message.value)
+})
+</script>
+<template>
+  <form @submit="onSubmit" class="flex-grow flex flex-col">
+    <FormField v-slot="{ componentField }" name="message">
+      <FormItem>
+        <FormLabel>Message</FormLabel>
+        <FormControl>
+          <Input type="text" placeholder="Enter your message" v-bind="componentField" />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+    <Button type="submit" class="mt-auto" :disabled="messageError">Update Message</Button>
+  </form>
+</template>

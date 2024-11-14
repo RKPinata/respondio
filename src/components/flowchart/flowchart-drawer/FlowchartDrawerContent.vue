@@ -1,6 +1,8 @@
 <script setup>
 import { Typography } from '@/components/typography'
 import FormAddComment from './FormAddComment.vue'
+import FormSendMessage from './FormSendMessage.vue'
+import FormDateTime from './FormDateTime.vue'
 
 const props = defineProps({
   nodeType: {
@@ -19,16 +21,10 @@ const props = defineProps({
   </template>
 
   <template v-if="nodeType === 'sendMessage'">
-    <div>select input type</div>
-    <div>message input or file upload</div>
+    <FormSendMessage />
   </template>
 
   <template v-if="nodeType === 'dateTime'">
-    <div>
-      <!-- input for date -->
-      <!--  monday to friday input -->
-      <!-- time select for from to to -->
-    </div>
-    <div>select timezone</div>
+    <FormDateTime />
   </template>
 </template>
