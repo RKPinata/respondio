@@ -5,7 +5,7 @@ import { useFlowStore } from '@/stores'
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { computed, watch, watchEffect } from 'vue'
+import { computed } from 'vue'
 import { toTypedSchema } from '@vee-validate/zod'
 
 const flowstore = useFlowStore()
@@ -58,18 +58,6 @@ const onSubmit = form.handleSubmit((values) => {
 
 const messageError = computed(() => {
   return form.errors.value.message
-})
-
-// Watch for changes to `message` and set the form value to that
-watch(message, (newMessage) => {
-  console.log('message changed', newMessage)
-  form.setFieldValue('message', newMessage) // Update the form value
-
-  console.log(form.values)
-})
-
-watchEffect(() => {
-  // console.log(message.value)
 })
 </script>
 <template>

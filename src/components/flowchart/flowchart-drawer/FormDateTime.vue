@@ -1,14 +1,24 @@
 <script setup>
-import { watch } from 'vue'
 import { useForm, useField } from 'vee-validate'
 import { z } from 'zod'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { toTypedSchema } from '@vee-validate/zod'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { useFlowStore } from '@/stores'
-import { capitalizeFirstLetter } from '@/lib/utils'
+import { capitalizeFirstLetter, formatSchedule } from '@/lib/utils'
 import FormLabel from '@/components/ui/form/FormLabel.vue'
+import { timezones } from '@/constants'
+import { computed } from 'vue'
 
 const flowstore = useFlowStore()
 
@@ -51,36 +61,40 @@ const TimeRangeSchema = toTypedSchema(
         return acc
       }, {}),
     ),
+    selectedTimezone: z.string().min(1),
   }),
 )
 
 const initialAllTimeRange = normalizeAllTimeRange(dateTimeData.times)
+const initialSelectedTimezone = dateTimeData.timezone
 
-console.log('Initial all time range:', initialAllTimeRange)
+console.log(
+  'Initial all time range:',
+  initialAllTimeRange,
+  'Initial selected timezone:',
+  initialSelectedTimezone,
+)
 
-// Form setup with Vee-Validate and Zod schema
 const form = useForm({
   validationSchema: TimeRangeSchema,
-  initialValues: { allTimeRange: initialAllTimeRange },
+  initialValues: { allTimeRange: initialAllTimeRange, selectedTimezone: initialSelectedTimezone },
 })
 
 const onSubmit = form.handleSubmit((values) => {
-  console.log('Selected time range:', values.allTimeRange)
+  console.log(values.allTimeRange)
+
+  // format it for storing to flowstore node
+
+  flowstore.updateNodeData(flowstore.selectedNode, {
+    times: formatSchedule(values.allTimeRange),
+    timezone: values.selectedTimezone,
+  })
 })
 
-const { value: allTimeRange, errors } = useField('allTimeRange')
+const { value: allTimeRange, errors: timeErrors } = useField('allTimeRange', { deep: true })
+const { value: selectedTimezone } = useField('selectedTimezone')
 
-watch(
-  [allTimeRange, errors],
-  ([newTimeRange, newErrors]) => {
-    console.log('Time changed:', newTimeRange)
-    console.log('Errors:', newErrors)
-  },
-  {
-    deep: true,
-    immediate: true,
-  },
-)
+const hasError = computed(() => timeErrors.value.length > 0)
 </script>
 
 <template>
@@ -95,6 +109,30 @@ watch(
         :id="day"
       />
     </div>
-    <Button type="submit" class="mt-auto">Update Message</Button>
+
+    <Select v-model="selectedTimezone">
+      <SelectTrigger class="w-[280px]">
+        <SelectValue placeholder="Select a timezone" />
+      </SelectTrigger>
+      <SelectContent>
+        <template v-for="(group, groupIndex) in timezones" :key="groupIndex">
+          <SelectGroup>
+            <SelectLabel>{{ group.label }}</SelectLabel>
+            <SelectItem
+              v-for="(option, optionIndex) in group.options"
+              :key="optionIndex"
+              :value="option.value"
+            >
+              {{ option.display }}
+            </SelectItem>
+          </SelectGroup>
+        </template>
+      </SelectContent>
+    </Select>
+    <Typography variant="body2" class="text-destructive" v-if="hasError">
+      You have to select both start and end times for each day.
+    </Typography>
+
+    <Button type="submit" class="mt-auto">Update Business Hours</Button>
   </form>
 </template>
