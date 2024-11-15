@@ -30,10 +30,14 @@ export const useFlowStore = defineStore('flow', () => {
             newName: name,
           })
         }
+        case 'sendMessage': {
+          return convertAddNodeToNewNode(selectedNode.value, {
+            newType: 'sendMessage',
+            newName: name,
+          })
+        }
       }
     })()
-
-    console.log(newNode)
 
     const updatedNodes = getNodesWithUpdatedProperties(newNode.id, newNode)
 

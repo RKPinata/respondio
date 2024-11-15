@@ -6,8 +6,8 @@ const flowstore = useFlowStore()
 
 const handleSubmit = () => {
   flowstore.handleCreateNewNode({
-    type: 'addComment',
-    name: 'New Comment',
+    type: 'sendMessage',
+    name: 'New Message',
   })
 }
 </script>
