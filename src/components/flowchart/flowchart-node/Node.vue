@@ -20,14 +20,21 @@ const nodeName = computed(() => props.data.name || '')
 const isValid = computed(() => {
   switch (nodeType) {
     case 'sendMessage':
-      console.log(nodeData.value.payload)
-      return !!nodeData.value.payload
+      return checkMessageValidity(nodeData.value.payload)
     case 'addComment':
       return !!nodeData.value.comment
     default:
       return true
   }
 })
+
+const checkMessageValidity = (payload) => {
+  if (Array.isArray(payload)) {
+    return payload[0].text
+  }
+
+  return payload.text
+}
 
 const isConnector = nodeType === 'dateTimeConnector'
 </script>
