@@ -1,9 +1,10 @@
 <script setup>
-import Button from '@/components/ui/button/Button.vue'
-import { useFlowStore } from '@/stores'
+import { computed } from 'vue'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useField, useForm } from 'vee-validate'
 import { z } from 'zod'
+import { useForm } from 'vee-validate'
+import { useFlowStore } from '@/stores'
+import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import {
   Select,
@@ -14,7 +15,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { computed, watch } from 'vue'
 
 const flowstore = useFlowStore()
 
@@ -36,9 +36,6 @@ const form = useForm({
     name: '',
   },
 })
-
-const { value: type, errors: typeErrors } = useField('type')
-const { value: name, errors: nameErrors } = useField('name')
 
 const onSubmit = form.handleSubmit((values) => {
   flowstore.handleCreateNewNode({

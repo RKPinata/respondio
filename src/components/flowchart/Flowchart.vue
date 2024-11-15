@@ -1,6 +1,5 @@
 <script setup>
-import FlowchartCanvas from './FlowchartCanvas.vue'
-import FlowchartDrawer from './flowchart-drawer/FlowchartDrawer.vue'
+import { FlowchartCanvas, FlowchartDrawer } from '@/components/flowchart'
 </script>
 <template>
   <main class="flex-grow flex">

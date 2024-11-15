@@ -1,7 +1,7 @@
 <script setup>
 import Typography from '@/components/typography/Typography.vue'
 
-const props = defineProps({
+defineProps({
   name: {
     type: String,
     required: true,

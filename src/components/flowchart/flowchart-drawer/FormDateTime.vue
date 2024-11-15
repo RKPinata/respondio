@@ -1,9 +1,12 @@
 <script setup>
-import { useForm, useField } from 'vee-validate'
-import { z } from 'zod'
-import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import { computed } from 'vue'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import { useForm, useField } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
+import { z } from 'zod'
+import { useFlowStore } from '@/stores'
+import { capitalizeFirstLetter, formatSchedule } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -14,11 +17,8 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
-import { useFlowStore } from '@/stores'
-import { capitalizeFirstLetter, formatSchedule } from '@/lib/utils'
-import FormLabel from '@/components/ui/form/FormLabel.vue'
+import { FormLabel } from '@/components/ui/form'
 import { timezones } from '@/constants'
-import { computed } from 'vue'
 
 const flowstore = useFlowStore()
 

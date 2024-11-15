@@ -1,11 +1,8 @@
 <script setup>
 import { Typography } from '@/components/typography'
-import FormAddComment from './FormAddComment.vue'
-import FormSendMessage from './FormSendMessage.vue'
-import FormDateTime from './FormDateTime.vue'
-import FormAddNew from './FormAddNew.vue'
+import { FormAddComment, FormSendMessage, FormDateTime, FormAddNew } from '@/components/flowchart'
 
-const props = defineProps({
+defineProps({
   nodeType: {
     type: String,
     required: true,

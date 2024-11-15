@@ -1,10 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-
-import Separator from '@/components/ui/separator/Separator.vue'
-import NodeIcon from './NodeIcon.vue'
-import NodeDescription from './NodeDescription.vue'
-import NodeTitle from './NodeTitle.vue'
+import { Separator } from '@/components/ui/separator'
+import { NodeIcon, NodeDescription, NodeTitle } from '@/components/flowchart'
 
 const props = defineProps({
   data: {

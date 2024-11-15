@@ -1,11 +1,10 @@
 <script setup>
-import { Typography } from '@/components/typography'
 import { useDrawer } from '@/composables'
 import { computed, watch } from 'vue'
-import NodeIcon from '../flowchart-node/NodeIcon.vue'
-import { Separator } from '@/components/ui/separator'
-import FlowchartDrawerContent from './FlowchartDrawerContent.vue'
 import { useFlowStore } from '@/stores'
+import { Typography } from '@/components/typography'
+import { Separator } from '@/components/ui/separator'
+import { FlowchartDrawerContent, NodeIcon } from '@/components/flowchart'
 
 const { closeDrawer, isOpen, nodeId } = useDrawer()
 const flowstore = useFlowStore()

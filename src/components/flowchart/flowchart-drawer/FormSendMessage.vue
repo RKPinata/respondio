@@ -1,12 +1,12 @@
 <script setup>
+import { computed } from 'vue'
 import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { useFlowStore } from '@/stores'
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { computed } from 'vue'
-import { toTypedSchema } from '@vee-validate/zod'
 
 const flowstore = useFlowStore()
 
