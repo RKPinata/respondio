@@ -34,6 +34,10 @@ watch(
   },
   { immediate: true },
 )
+
+watch(nodeType, (type) => {
+  console.log({ type })
+})
 </script>
 <template v-if="true">
   <div
@@ -52,7 +56,7 @@ watch(
         <Typography variant="h2">{{ title }}</Typography>
       </div>
       <Separator />
-      <FlowchartDrawerContent :nodeType="nodeType" :key="nodeId" />
+      <FlowchartDrawerContent :nodeType="nodeType" :key="`${nodeType}-${nodeId}`" />
     </div>
   </div>
 </template>

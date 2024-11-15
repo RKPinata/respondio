@@ -1,11 +1,10 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { mockEdges, mockNode } from '@/mock/mockNodeAndEdges'
-import { initializeNodesAndEdges } from '@/lib/nodeHelpers'
+import { convertAddNodeToNewNode, initializeNodesAndEdges } from '@/lib/nodeHelpers'
 
 export const useFlowStore = defineStore('flow', () => {
   const initialNodesAndEdges = initializeNodesAndEdges(mockNode, mockEdges)
-  console.log(initialNodesAndEdges)
 
   const nodes = ref(initialNodesAndEdges.nodes)
   const edges = ref(initialNodesAndEdges.edges)
@@ -22,6 +21,26 @@ export const useFlowStore = defineStore('flow', () => {
     selectedNode.value = node
   }
 
+  const handleCreateNewNode = ({ type, name }) => {
+    const newNode = (() => {
+      switch (type) {
+        case 'addComment': {
+          return convertAddNodeToNewNode(selectedNode.value, {
+            newType: 'addComment',
+            newName: name,
+          })
+        }
+      }
+    })()
+
+    console.log(newNode)
+
+    const updatedNodes = getNodesWithUpdatedProperties(newNode.id, newNode)
+
+    selectedNode.value = newNode
+    recomputeNodes(updatedNodes)
+  }
+
   const addNode = (node) => {
     nodes.value.push(node)
   }
@@ -30,10 +49,13 @@ export const useFlowStore = defineStore('flow', () => {
     edges.value.push(edge)
   }
 
-  const recomputeNodes = (id, updatedProperties) => {
-    // Replace the entire nodes array with a new array where the node with the matching ID is updated
+  // Replace the entire nodes array with a new array to trigger reactivity
+  const recomputeNodes = (newNodes) => {
+    nodes.value = newNodes
+  }
 
-    nodes.value = nodes.value.map((node) =>
+  const getNodesWithUpdatedProperties = (id, updatedProperties) => {
+    return nodes.value.map((node) =>
       node.id === id
         ? {
             ...node,
@@ -49,13 +71,17 @@ export const useFlowStore = defineStore('flow', () => {
       ...payload,
     }
 
-    recomputeNodes(node.id, { data: newData })
+    const updatedNodes = getNodesWithUpdatedProperties(node.id, { data: newData })
+
+    recomputeNodes(updatedNodes)
   }
 
   const updateNodePosition = (node) => {
     const newPosition = node.position
 
-    recomputeNodes(node.id, { position: newPosition })
+    const updatedNodes = getNodesWithUpdatedProperties(node.id, { position: newPosition })
+
+    recomputeNodes(updatedNodes)
   }
 
   // Test Required
@@ -87,5 +113,7 @@ export const useFlowStore = defineStore('flow', () => {
     updateNodeData,
     updateNodePosition,
     addEdge,
+
+    handleCreateNewNode,
   }
 })

@@ -32,7 +32,7 @@ const nodeTypes = {
 }
 
 const handleNodeClick = ({ event, node }) => {
-  if (node.type === 'dateTimeConnector' || node.type === 'addNew') return
+  if (node.type === 'dateTimeConnector') return
 
   openDrawer(node.id)
 

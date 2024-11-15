@@ -19,10 +19,10 @@ const initializeAddNewNodes = (nodes, edges) => {
   const edgesToAdd = []
 
   leafNodes.forEach((leafAsParent) => {
-    const newNode = generateCommonNewNode(
+    const newNode = generateAddNewNode(
       leafAsParent.id,
       {
-        x: leafAsParent.position.x + 80,
+        x: leafAsParent.position.x,
         y: leafAsParent.position.y + 200,
       },
       'addNew',
@@ -31,7 +31,7 @@ const initializeAddNewNodes = (nodes, edges) => {
 
     nodesToAdd.push(newNode)
 
-    const newEdge = constructNewEdge(leafAsParent.id, newNode.id)
+    const newEdge = generateNewEdge(leafAsParent.id, newNode.id)
     edgesToAdd.push(newEdge)
   })
 
@@ -47,14 +47,34 @@ export const initializeNodesAndEdges = (mockNode, mockEdges) => {
   return { nodes, edges }
 }
 
-const generateCommonNewNode = (parentId, position, type, name) => ({
-  type: type,
-  name: name,
+const generateAddNewNode = (parentId, position) => ({
+  type: 'addNew',
+  name: 'Add New',
   parentId: parentId,
   id: generateNewId(),
   position: position,
-  data: getDefaultNewNodeData(type, name),
+  data: getDefaultNewNodeData('addNew', 'Add New'),
 })
+
+export const convertAddNodeToNewNode = (addNode, { newType, newName }) => {
+  return {
+    type: newType,
+    name: newName,
+    parentId: addNode.parentId,
+    id: addNode.id,
+    position: addNode.position,
+    data: getDefaultNewNodeData(newType, newName),
+  }
+}
+
+const generateNewEdge = (source, target) => {
+  return {
+    id: `${source}-${target}`,
+    source: source,
+    target: target,
+    type: 'smoothstep',
+  }
+}
 
 // const generateDateTimeNodes = (parentId, addNodePosition, type, name) => {
 //   // generate the dateTimenode with generateCommonNewNode
@@ -82,15 +102,6 @@ const generateCommonNewNode = (parentId, position, type, name) => ({
 
 //   return (newNodes = {})
 // }
-
-const constructNewEdge = (source, target) => {
-  return {
-    id: `${source}-${target}`,
-    source: source,
-    target: target,
-    type: 'smoothstep',
-  }
-}
 
 // const getDefaultPosition = (parentPosition, type) => {}
 
@@ -162,4 +173,16 @@ const getDefaultNewNodeData = (type, name) => {
         timezone: 'UTC',
       }
   }
+}
+
+export const replaceNodeById = ({ nodes, newNode }) => {
+  const index = nodes.findIndex((node) => node.id === newNode.id)
+
+  if (index !== -1) {
+    nodes[index] = newNode // Merge new data with existing node data if needed
+  } else {
+    console.error('Node not found')
+  }
+
+  return nodes
 }
