@@ -79,6 +79,6 @@ const canSubmit = computed(() => {
         <FormMessage />
       </FormItem>
     </FormField>
-    <Button type="submit" class="mt-auto" :disabled="!canSubmit">Update Comment</Button>
+    <Button type="submit" class="mt-auto" :disabled="!canSubmit">Create New Node</Button>
   </form>
 </template>
