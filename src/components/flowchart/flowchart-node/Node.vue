@@ -19,11 +19,8 @@ const nodeName = computed(() => props.data.name || '')
 
 const isValid = computed(() => {
   switch (nodeType) {
-    case 'trigger':
-      return true
-    case 'dateTime':
-      return true
     case 'sendMessage':
+      console.log(nodeData.value.payload)
       return !!nodeData.value.payload
     case 'addComment':
       return !!nodeData.value.comment

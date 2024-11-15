@@ -5,6 +5,8 @@ import {
   convertAddNodeToNewNode,
   generateAddNewNode,
   generateNewEdge,
+  getNewAddNodesFromConnectors,
+  getNewDateTimeConnectorsFromNode,
   initializeNodesAndEdges,
 } from '@/lib/nodeHelpers'
 
@@ -27,42 +29,41 @@ export const useFlowStore = defineStore('flow', () => {
   }
 
   const handleCreateNewNode = ({ type, name }) => {
-    const newNode = (() => {
-      switch (type) {
-        case 'addComment': {
-          return convertAddNodeToNewNode(selectedNode.value, {
-            newType: 'addComment',
-            newName: name,
-          })
-        }
-        case 'sendMessage': {
-          return convertAddNodeToNewNode(selectedNode.value, {
-            newType: 'sendMessage',
-            newName: name,
-          })
-        }
-      }
-    })()
-
-    // switch (type) {
-    //   case: 'date'
-    // }
-
-    const updatedNodes = getNodesWithUpdatedProperties(newNode.id, newNode)
-    const newAddNode = generateAddNewNode(newNode.id, {
-      x: newNode.position.x,
-      y: newNode.position.y + 200,
+    const newNode = convertAddNodeToNewNode(selectedNode.value, {
+      newType: type,
+      newName: name,
     })
 
-    const newEdgeForAddNode = generateNewEdge(newNode.id, newAddNode.id)
+    const updatedNodes = getNodesWithUpdatedProperties(newNode.id, newNode)
+    const updatedEdges = [...edges.value]
 
-    console.log({ newEdgeForAddNode })
+    switch (type) {
+      case 'dateTime':
+        {
+          const { connectors, connectorEdges } = getNewDateTimeConnectorsFromNode(newNode)
+          const { addNewNodes, addNewEdges } = getNewAddNodesFromConnectors(connectors)
 
-    updatedNodes.push(newAddNode)
+          updatedNodes.push(...connectors, ...addNewNodes)
+          updatedEdges.push(...connectorEdges, ...addNewEdges)
+        }
+        break
+      default: {
+        const newAddNode = generateAddNewNode(newNode.id, {
+          x: newNode.position.x,
+          y: newNode.position.y + 200,
+        })
+
+        const newEdgeForAddNode = generateNewEdge(newNode.id, newAddNode.id)
+
+        updatedNodes.push(newAddNode)
+        updatedEdges.push(newEdgeForAddNode)
+      }
+    }
+
+    recomputeNodes(updatedNodes)
+    recomputeEdges(updatedEdges)
 
     selectedNode.value = newNode
-    recomputeNodes(updatedNodes)
-    recomputeEdges([...edges.value, newEdgeForAddNode])
   }
 
   const addNode = (node) => {

@@ -68,23 +68,13 @@ const TimeRangeSchema = toTypedSchema(
 const initialAllTimeRange = normalizeAllTimeRange(dateTimeData.times)
 const initialSelectedTimezone = dateTimeData.timezone
 
-console.log(
-  'Initial all time range:',
-  initialAllTimeRange,
-  'Initial selected timezone:',
-  initialSelectedTimezone,
-)
-
 const form = useForm({
   validationSchema: TimeRangeSchema,
   initialValues: { allTimeRange: initialAllTimeRange, selectedTimezone: initialSelectedTimezone },
 })
 
 const onSubmit = form.handleSubmit((values) => {
-  console.log(values.allTimeRange)
-
   // format it for storing to flowstore node
-
   flowstore.updateNodeData(flowstore.selectedNode, {
     times: formatSchedule(values.allTimeRange),
     timezone: values.selectedTimezone,
@@ -98,7 +88,7 @@ const hasError = computed(() => timeErrors.value.length > 0)
 </script>
 
 <template>
-  <form @submit="onSubmit" class="flex-grow flex flex-col">
+  <form @submit.prevent="onSubmit" class="flex-grow flex flex-col">
     <div v-for="day in days" :key="day" class="mb-4">
       <FormLabel>{{ capitalizeFirstLetter(day) }}</FormLabel>
       <VueDatePicker

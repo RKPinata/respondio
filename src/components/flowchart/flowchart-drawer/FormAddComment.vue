@@ -5,7 +5,7 @@ import { useFlowStore } from '@/stores'
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import { toTypedSchema } from '@vee-validate/zod'
 
 const flowstore = useFlowStore()
@@ -36,7 +36,7 @@ const commentError = computed(() => {
 })
 </script>
 <template>
-  <form @submit="onSubmit" class="flex-grow flex flex-col">
+  <form @submit.prevent="onSubmit" class="flex-grow flex flex-col">
     <FormField v-slot="{ componentField }" name="comment">
       <FormItem>
         <FormLabel>Comment</FormLabel>

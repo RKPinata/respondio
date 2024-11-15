@@ -61,7 +61,7 @@ const messageError = computed(() => {
 })
 </script>
 <template>
-  <form @submit="onSubmit" class="flex-grow flex flex-col">
+  <form @submit.prevent="onSubmit" class="flex-grow flex flex-col">
     <FormField v-slot="{ componentField }" name="message">
       <FormItem>
         <FormLabel>Message</FormLabel>

@@ -171,6 +171,7 @@ const getDefaultNewNodeData = (type, name) => {
           },
         ],
         timezone: 'UTC',
+        connectors: [generateNewId(), generateNewId()],
       }
   }
 }
@@ -185,4 +186,68 @@ export const replaceNodeById = ({ nodes, newNode }) => {
   }
 
   return nodes
+}
+
+export const getNewDateTimeConnectorsFromNode = (dateTimeNode) => {
+  const connectors = dateTimeNode.data.connectors
+  const [successId, failureId] = connectors
+
+  connectors[0] = {
+    name: 'Success',
+    id: successId,
+    type: 'dateTimeConnector',
+    data: {
+      type: 'dateTimeConnector',
+      name: 'Success',
+      connectorType: 'success',
+    },
+    parentId: dateTimeNode.id,
+    position: {
+      x: dateTimeNode.position.x - 150,
+      y: dateTimeNode.position.y + 200,
+    },
+  }
+
+  connectors[1] = {
+    name: 'Failure',
+    id: failureId,
+    type: 'dateTimeConnector',
+    data: {
+      type: 'dateTimeConnector',
+      name: 'Failure',
+      connectorType: 'failure',
+    },
+    parentId: dateTimeNode.id,
+    position: {
+      x: dateTimeNode.position.x + 150,
+      y: dateTimeNode.position.y + 200,
+    },
+  }
+
+  const connectorEdges = [
+    generateNewEdge(dateTimeNode.id, successId),
+    generateNewEdge(dateTimeNode.id, failureId),
+  ]
+
+  return { connectors, connectorEdges }
+}
+
+export const getNewAddNodesFromConnectors = (connectors) => {
+  const addNewNodes = [
+    generateAddNewNode(connectors[0].id, {
+      x: connectors[0].position.x,
+      y: connectors[0].position.y + 200,
+    }),
+    generateAddNewNode(connectors[1].id, {
+      x: connectors[1].position.x,
+      y: connectors[1].position.y + 200,
+    }),
+  ]
+
+  const addNewEdges = [
+    generateNewEdge(connectors[0].id, addNewNodes[0].id),
+    generateNewEdge(connectors[1].id, addNewNodes[1].id),
+  ]
+
+  return { addNewNodes, addNewEdges }
 }
