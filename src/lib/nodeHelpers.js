@@ -152,13 +152,13 @@ export const getNewDateTimeConnectorsFromNode = (dateTimeNode) => {
   const [successId, failureId] = connectors
 
   connectors[0] = {
-    name: 'Success',
-    id: successId,
+    name: 'Failure',
+    id: failureId,
     type: 'dateTimeConnector',
     data: {
       type: 'dateTimeConnector',
-      name: 'Success',
-      connectorType: 'success',
+      name: 'Failure',
+      connectorType: 'failure',
     },
     parentId: dateTimeNode.id,
     position: {
@@ -168,13 +168,13 @@ export const getNewDateTimeConnectorsFromNode = (dateTimeNode) => {
   }
 
   connectors[1] = {
-    name: 'Failure',
-    id: failureId,
+    name: 'Success',
+    id: successId,
     type: 'dateTimeConnector',
     data: {
       type: 'dateTimeConnector',
-      name: 'Failure',
-      connectorType: 'failure',
+      name: 'Success',
+      connectorType: 'success',
     },
     parentId: dateTimeNode.id,
     position: {
