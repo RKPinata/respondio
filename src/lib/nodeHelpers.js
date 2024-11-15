@@ -47,7 +47,7 @@ export const initializeNodesAndEdges = (mockNode, mockEdges) => {
   return { nodes, edges }
 }
 
-const generateAddNewNode = (parentId, position) => ({
+export const generateAddNewNode = (parentId, position) => ({
   type: 'addNew',
   name: 'Add New',
   parentId: parentId,
@@ -67,7 +67,7 @@ export const convertAddNodeToNewNode = (addNode, { newType, newName }) => {
   }
 }
 
-const generateNewEdge = (source, target) => {
+export const generateNewEdge = (source, target) => {
   return {
     id: `${source}-${target}`,
     source: source,

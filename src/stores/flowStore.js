@@ -1,7 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { mockEdges, mockNode } from '@/mock/mockNodeAndEdges'
-import { convertAddNodeToNewNode, initializeNodesAndEdges } from '@/lib/nodeHelpers'
+import {
+  convertAddNodeToNewNode,
+  generateAddNewNode,
+  generateNewEdge,
+  initializeNodesAndEdges,
+} from '@/lib/nodeHelpers'
 
 export const useFlowStore = defineStore('flow', () => {
   const initialNodesAndEdges = initializeNodesAndEdges(mockNode, mockEdges)
@@ -39,10 +44,25 @@ export const useFlowStore = defineStore('flow', () => {
       }
     })()
 
+    // switch (type) {
+    //   case: 'date'
+    // }
+
     const updatedNodes = getNodesWithUpdatedProperties(newNode.id, newNode)
+    const newAddNode = generateAddNewNode(newNode.id, {
+      x: newNode.position.x,
+      y: newNode.position.y + 200,
+    })
+
+    const newEdgeForAddNode = generateNewEdge(newNode.id, newAddNode.id)
+
+    console.log({ newEdgeForAddNode })
+
+    updatedNodes.push(newAddNode)
 
     selectedNode.value = newNode
     recomputeNodes(updatedNodes)
+    recomputeEdges([...edges.value, newEdgeForAddNode])
   }
 
   const addNode = (node) => {
@@ -56,6 +76,10 @@ export const useFlowStore = defineStore('flow', () => {
   // Replace the entire nodes array with a new array to trigger reactivity
   const recomputeNodes = (newNodes) => {
     nodes.value = newNodes
+  }
+
+  const recomputeEdges = (newEdges) => {
+    edges.value = newEdges
   }
 
   const getNodesWithUpdatedProperties = (id, updatedProperties) => {
