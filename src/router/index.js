@@ -7,10 +7,6 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: { name: 'flowchart' },
-    },
-    {
-      path: '/flowchart',
       name: 'flowchart',
       component: FlowchartView,
     },
