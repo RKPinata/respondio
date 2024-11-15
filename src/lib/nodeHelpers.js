@@ -76,35 +76,6 @@ export const generateNewEdge = (source, target) => {
   }
 }
 
-// const generateDateTimeNodes = (parentId, addNodePosition, type, name) => {
-//   // generate the dateTimenode with generateCommonNewNode
-
-//   const connectorNodes = [
-//     {
-//       name: 'Success',
-//       id: generateNewId(),
-//       type: 'dateTimeConnector',
-//       data: {
-//         connectorType: 'success',
-//       },
-//       parentId: parentId,
-//     },
-//     {
-//       name: 'Failure',
-//       id: generateNewId(),
-//       type: 'dateTimeConnector',
-//       data: {
-//         connectorType: 'failure',
-//       },
-//       parentId: parentId,
-//     },
-//   ]
-
-//   return (newNodes = {})
-// }
-
-// const getDefaultPosition = (parentPosition, type) => {}
-
 const getDefaultNewNodeData = (type, name) => {
   switch (type) {
     case 'addNew':
@@ -174,18 +145,6 @@ const getDefaultNewNodeData = (type, name) => {
         connectors: [generateNewId(), generateNewId()],
       }
   }
-}
-
-export const replaceNodeById = ({ nodes, newNode }) => {
-  const index = nodes.findIndex((node) => node.id === newNode.id)
-
-  if (index !== -1) {
-    nodes[index] = newNode // Merge new data with existing node data if needed
-  } else {
-    console.error('Node not found')
-  }
-
-  return nodes
 }
 
 export const getNewDateTimeConnectorsFromNode = (dateTimeNode) => {
