@@ -1,12 +1,11 @@
 <script setup>
+import { markRaw, computed } from 'vue'
 import { Background } from '@vue-flow/background'
 import { Controls } from '@vue-flow/controls'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { useFlowStore } from '@/stores/'
-import { markRaw, computed } from 'vue'
 import { useDrawer } from '@/composables'
-import Node from './flowchart-node/Node.vue'
-import NodeTypeAddNew from './flowchart-node/NodeTypeAddNew.vue'
+import { Node, NodeTypeAddNew } from '@/components/flowchart'
 
 const { openDrawer } = useDrawer()
 
