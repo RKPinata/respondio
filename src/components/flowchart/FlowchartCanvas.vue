@@ -3,9 +3,10 @@ import { Background } from '@vue-flow/background'
 import { Controls } from '@vue-flow/controls'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { useFlowStore } from '@/stores/'
-import Node from './flowchart-node/Node.vue'
 import { markRaw, computed } from 'vue'
 import { useDrawer } from '@/composables'
+import Node from './flowchart-node/Node.vue'
+import NodeTypeAddNew from './flowchart-node/NodeTypeAddNew.vue'
 
 const { openDrawer } = useDrawer()
 
@@ -27,12 +28,17 @@ const nodeTypes = {
   sendMessage: markRaw(Node),
   dateTimeConnector: markRaw(Node),
   addComment: markRaw(Node),
+  addNew: markRaw(NodeTypeAddNew),
 }
 
 const handleNodeClick = ({ event, node }) => {
-  if (node.type === 'dateTimeConnector') return
+  if (node.type === 'dateTimeConnector' || node.type === 'addNew') return
 
   openDrawer(node.id)
+
+  setTimeout(() => {
+    fitView()
+  }, 350)
 }
 
 const handleNodeDragStop = ({ node }) => {

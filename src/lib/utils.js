@@ -21,3 +21,7 @@ export function formatSchedule(schedule) {
     endTime: formatTime(times[1]),
   }))
 }
+
+export function generateNewId() {
+  return Math.random().toString(36).substring(2, 8)
+}

@@ -1,11 +1,14 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { mockEdges, mockNode } from '@/mock/mockNodeAndEdges'
+import { initializeNodesAndEdges } from '@/lib/nodeHelpers'
 
 export const useFlowStore = defineStore('flow', () => {
-  // Initial States
-  const nodes = ref(mockNode)
-  const edges = ref(mockEdges)
+  const initialNodesAndEdges = initializeNodesAndEdges(mockNode, mockEdges)
+  console.log(initialNodesAndEdges)
+
+  const nodes = ref(initialNodesAndEdges.nodes)
+  const edges = ref(initialNodesAndEdges.edges)
 
   const selectedNode = ref(null)
 
@@ -21,6 +24,10 @@ export const useFlowStore = defineStore('flow', () => {
 
   const addNode = (node) => {
     nodes.value.push(node)
+  }
+
+  const addEdge = (edge) => {
+    edges.value.push(edge)
   }
 
   const recomputeNodes = (id, updatedProperties) => {
@@ -52,26 +59,22 @@ export const useFlowStore = defineStore('flow', () => {
   }
 
   // Test Required
-  const removeNode = (id) => {
-    nodes.value = nodes.value.filter((node) => node.id !== id)
-    edges.value = edges.value.filter((edge) => edge.source !== id && edge.target !== id) // Remove related edges
-  }
-
-  const addEdge = (edge) => {
-    edges.value.push(edge)
-  }
+  // const removeNode = (id) => {
+  //   nodes.value = nodes.value.filter((node) => node.id !== id)
+  //   edges.value = edges.value.filter((edge) => edge.source !== id && edge.target !== id) // Remove related edges
+  // }
 
   // Test Required
-  const updateEdge = (id, updatedData) => {
-    const edgeIndex = edges.value.findIndex((edge) => edge.id === id)
-    if (edgeIndex !== -1) {
-      edges.value[edgeIndex] = { ...edges.value[edgeIndex], ...updatedData }
-    }
-  }
+  // const updateEdge = (id, updatedData) => {
+  //   const edgeIndex = edges.value.findIndex((edge) => edge.id === id)
+  //   if (edgeIndex !== -1) {
+  //     edges.value[edgeIndex] = { ...edges.value[edgeIndex], ...updatedData }
+  //   }
+  // }
 
-  const removeEdge = (id) => {
-    edges.value = edges.value.filter((edge) => edge.id !== id)
-  }
+  // const removeEdge = (id) => {
+  //   edges.value = edges.value.filter((edge) => edge.id !== id)
+  // }
 
   return {
     nodes,
@@ -83,9 +86,6 @@ export const useFlowStore = defineStore('flow', () => {
     addNode,
     updateNodeData,
     updateNodePosition,
-    removeNode,
     addEdge,
-    updateEdge,
-    removeEdge,
   }
 })

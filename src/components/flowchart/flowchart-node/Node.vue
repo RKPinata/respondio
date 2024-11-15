@@ -18,12 +18,18 @@ const nodeData = computed(() => props.data || {})
 const nodeName = computed(() => props.data.name || '')
 
 const isValid = computed(() => {
-  return {
-    trigger: true,
-    dateTime: true,
-    sendMessage: !!nodeData.value.payload,
-    addComment: !!nodeData.value.comment,
-  }[nodeType]
+  switch (nodeType) {
+    case 'trigger':
+      return true
+    case 'dateTime':
+      return true
+    case 'sendMessage':
+      return !!nodeData.value.payload
+    case 'addComment':
+      return !!nodeData.value.comment
+    default:
+      return true
+  }
 })
 
 const isConnector = nodeType === 'dateTimeConnector'
@@ -32,6 +38,7 @@ const isConnector = nodeType === 'dateTimeConnector'
   <span v-if="isConnector" class="text-blue-600 font-semibold bg-blue-200 px-2 py-1 rounded-lg">{{
     nodeName
   }}</span>
+
   <div
     v-else
     :class="{

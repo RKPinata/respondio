@@ -1,20 +1,6 @@
 import '@vue-flow/core'
 import rawNode from './mockData.json'
 
-// const generateEdgesFromRawData = (rawNodes) => {
-//   rawNode
-//     .filter((node) => node.parentId && node.parentId !== -1)
-//     .map((node) => {
-//       const sourceId = String(node.parentId)
-//       const targetId = String(node.id)
-//       return {
-//         id: `e${sourceId}-${targetId}`,
-//         source: sourceId,
-//         target: targetId,
-//       }
-//     })
-// }
-
 const generateNodesFromRawData = (rawNodes) => {
   return rawNodes.map((node) => {
     const position = {
